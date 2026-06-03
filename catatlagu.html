@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Song Request</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    padding:15px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.header h1{
+    font-size:28px;
+    color:#333;
+    margin-bottom:5px;
+}
+
+.header p{
+    color:#777;
+}
+
+.card{
+    background:#fff;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    margin-bottom:5px;
+    font-weight:bold;
+    color:#555;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin-bottom:12px;
+    font-size:16px;
+}
+
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.btn-add{
+    width:100%;
+    background:#4CAF50;
+    color:white;
+    font-weight:bold;
+}
+
+.counter{
+    text-align:center;
+    margin-bottom:15px;
+    font-weight:bold;
+    color:#666;
+}
+
+.song-item{
+    background:#fff;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.song-item.done{
+    opacity:.65;
+    background:#eafbe8;
+}
+
+.queue{
+    color:#999;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.song-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.song-info{
+    line-height:1.6;
+    color:#555;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:10px;
+    padding:6px 12px;
+    border-radius:20px;
+    background:#f0f0f0;
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.btn-done{
+    flex:1;
+    background:#2196F3;
+    color:white;
+}
+
+.btn-delete{
+    flex:1;
+    background:#f44336;
+    color:white;
+}
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#999;
+}
+
+@media(max-width:500px){
+
+    .actions{
+        flex-direction:column;
+    }
+
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🎤 Wedding Song Request</h1>
+        <p>Daftar Lagu Persembahan Tamu</p>
+    </div>
+
+    <div class="card">
+
+        <label>Nama Tamu</label>
+        <input
+            type="text"
+            id="guestName"
+            placeholder="Opsional">
+
+        <label>Judul Lagu</label>
+        <input
+            type="text"
+            id="songTitle"
+            placeholder="Opsional">
+
+        <label>Penyanyi Asli</label>
+        <input
+            type="text"
+            id="artistName"
+            placeholder="Opsional">
+
+        <label>Jenis Penampilan</label>
+        <select id="performanceType">
+            <option value="">Pilih (Opsional)</option>
+            <option value="🎤 Dinyanyikan Sendiri">
+                🎤 Dinyanyikan Sendiri
+            </option>
+            <option value="🎸 Dinyanyikan Band">
+                🎸 Dinyanyikan Band
+            </option>
+            <option value="🎤🎸 Duet dengan Band">
+                🎤🎸 Duet dengan Band
+            </option>
+        </select>
+
+        <button
+            class="btn-add"
+            onclick="addSong()">
+            ➕ Tambah ke Antrian
+        </button>
+
+    </div>
+
+    <div
+        class="counter"
+        id="counter">
+        Total Antrian: 0
+    </div>
+
+    <div id="songList"></div>
+
+</div>
+
+<script>
+
+let songs = JSON.parse(
+    localStorage.getItem('weddingSongs')
+) || [];
+
+function saveData(){
+    localStorage.setItem(
+        'weddingSongs',
+        JSON.stringify(songs)
+    );
+}
+
+function addSong(){
+
+    songs.push({
+        guest: document.getElementById('guestName').value.trim(),
+        song: document.getElementById('songTitle').value.trim(),
+        artist: document.getElementById('artistName').value.trim(),
+        type: document.getElementById('performanceType').value,
+        done: false,
+        createdAt: new Date().toLocaleString('id-ID')
+    });
+
+    saveData();
+
+    document.getElementById('guestName').value='';
+    document.getElementById('songTitle').value='';
+    document.getElementById('artistName').value='';
+    document.getElementById('performanceType').value='';
+
+    render();
+}
+
+function toggleDone(index){
+
+    songs[index].done = !songs[index].done;
+
+    saveData();
+    render();
+}
+
+function deleteSong(index){
+
+    if(confirm('Hapus data ini?')){
+
+        songs.splice(index,1);
+
+        saveData();
+
+        render();
+    }
+}
+
+function render(){
+
+    const list =
+        document.getElementById('songList');
+
+    const counter =
+        document.getElementById('counter');
+
+    counter.textContent =
+        'Total Antrian: ' + songs.length;
+
+    if(songs.length === 0){
+
+        list.innerHTML = `
+            <div class="empty">
+                Belum ada lagu dalam antrian
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML = '';
+
+    songs.forEach((item,index)=>{
+
+        list.innerHTML += `
+
+        <div class="song-item ${item.done ? 'done' : ''}">
+
+            <div class="queue">
+                Antrian #${index + 1}
+            </div>
+
+            <div class="song-title">
+                ${item.song || '(Judul Lagu Belum Diisi)'}
+            </div>
+
+            <div class="song-info">
+
+                👤 <b>Tamu:</b>
+                ${item.guest || '-'}
+
+                <br>
+
+                🎵 <b>Penyanyi Asli:</b>
+                ${item.artist || '-'}
+
+                <br>
+
+                🎤 <b>Jenis:</b>
+                ${item.type || '-'}
+
+                <br>
+
+                🕒 <b>Waktu Input:</b>
+                ${item.createdAt}
+
+            </div>
+
+            ${
+                item.type
+                ? `<div class="badge">${item.type}</div>`
+                : ''
+            }
+
+            <div class="actions">
+
+                <button
+                    class="btn-done"
+                    onclick="toggleDone(${index})">
+
+                    ${
+                        item.done
+                        ? '↩ Batalkan'
+                        : '✓ Sudah Dinyanyikan'
+                    }
+
+                </button>
+
+                <button
+                    class="btn-delete"
+                    onclick="deleteSong(${index})">
+
+                    🗑 Hapus
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+}
+
+render();
+
+</script>
+
+</body>
+</html>
