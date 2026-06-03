@@ -3,11 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>My Links</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -17,35 +25,84 @@
 
 body{
     min-height:100vh;
-    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+    background:
+    linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b,
+    #334155);
     display:flex;
     justify-content:center;
     align-items:center;
     padding:20px;
+    overflow-x:hidden;
+}
+
+/* Background Glow */
+
+.blob{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(120px);
+    z-index:-1;
+}
+
+.blob1{
+    width:300px;
+    height:300px;
+    background:#38bdf8;
+    top:-80px;
+    right:-80px;
+    opacity:.35;
+}
+
+.blob2{
+    width:250px;
+    height:250px;
+    background:#8b5cf6;
+    bottom:-80px;
+    left:-80px;
+    opacity:.3;
 }
 
 .container{
     width:100%;
-    max-width:420px;
+    max-width:430px;
 }
 
 .card{
-    background:rgba(255,255,255,0.08);
+    background:rgba(255,255,255,.08);
     backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,.1);
     border-radius:28px;
     padding:30px 24px;
     text-align:center;
-    box-shadow:0 10px 40px rgba(0,0,0,.25);
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
+
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .profile{
-    width:110px;
-    height:110px;
+    width:115px;
+    height:115px;
     border-radius:50%;
     object-fit:cover;
-    border:4px solid rgba(255,255,255,.2);
+    border:4px solid rgba(255,255,255,.25);
     margin-bottom:15px;
+
+    box-shadow:
+    0 0 25px rgba(255,255,255,.2);
 }
 
 h1{
@@ -56,10 +113,10 @@ h1{
 
 .bio{
     color:#cbd5e1;
-    font-size:0.95rem;
+    font-size:.95rem;
     margin-top:8px;
     margin-bottom:28px;
-    line-height:1.5;
+    line-height:1.6;
 }
 
 .links{
@@ -70,63 +127,110 @@ h1{
 
 .link-btn{
     text-decoration:none;
-    background:white;
+
+    background:
+    linear-gradient(
+    135deg,
+    #ffffff,
+    #e2e8f0);
+
     color:#0f172a;
+
     padding:16px;
-    border-radius:16px;
-    font-weight:600;
+    border-radius:18px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:10px;
+    gap:12px;
+
+    font-weight:600;
+
     transition:.25s;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.15);
 }
 
 .link-btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 20px rgba(0,0,0,.25);
+    transform:translateY(-4px);
+    box-shadow:
+    0 12px 25px rgba(0,0,0,.25);
 }
 
-.link-btn span{
+.link-btn i{
     font-size:1.2rem;
 }
 
 .socials{
-    margin-top:25px;
+    margin-top:28px;
     display:flex;
     justify-content:center;
     gap:14px;
 }
 
 .socials a{
-    width:48px;
-    height:48px;
+    width:50px;
+    height:50px;
+
     border-radius:50%;
-    background:rgba(255,255,255,.15);
+
+    background:
+    rgba(255,255,255,.15);
+
+    color:white;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    color:white;
+
     text-decoration:none;
-    font-size:1.2rem;
+
     transition:.25s;
+
+    font-size:1.2rem;
 }
 
 .socials a:hover{
     background:white;
     color:#0f172a;
+    transform:translateY(-3px);
+}
+
+.share-btn{
+    margin-top:22px;
+
+    border:none;
+
+    background:
+    rgba(255,255,255,.12);
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.share-btn:hover{
+    background:white;
+    color:#0f172a;
 }
 
 .footer{
-    margin-top:25px;
+    margin-top:24px;
     color:#94a3b8;
     font-size:.8rem;
 }
 
 @media(max-width:480px){
+
     .card{
-        padding:25px 18px;
+        padding:24px 18px;
     }
 
     h1{
@@ -136,18 +240,24 @@ h1{
     .link-btn{
         padding:15px;
     }
+
 }
+
 </style>
 </head>
 <body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
 
 <div class="container">
 
     <div class="card">
 
+        <!-- Ganti dengan foto Anda -->
         <img src="profil.jpg"
-             alt="Profile"
-             class="profile">
+        class="profile"
+        alt="Profile">
 
         <h1>Bayu Adinegara</h1>
 
@@ -159,39 +269,66 @@ h1{
 
         <div class="links">
 
-            <a href="#" class="link-btn">
-                <span>🌐</span>
+            <a href="https://websiteanda.com"
+            target="_blank"
+            class="link-btn">
+                <i class="fas fa-globe"></i>
                 Website Resmi
             </a>
 
-            <a href="#" class="link-btn">
-                <span>📸</span>
+            <a href="https://instagram.com/"
+            target="_blank"
+            class="link-btn">
+                <i class="fab fa-instagram"></i>
                 Instagram
             </a>
 
-            <a href="#" class="link-btn">
-                <span>🎵</span>
+            <a href="https://tiktok.com/"
+            target="_blank"
+            class="link-btn">
+                <i class="fab fa-tiktok"></i>
                 TikTok
             </a>
 
-            <a href="#" class="link-btn">
-                <span>▶️</span>
+            <a href="https://youtube.com/"
+            target="_blank"
+            class="link-btn">
+                <i class="fab fa-youtube"></i>
                 YouTube
             </a>
 
-            <a href="#" class="link-btn">
-                <span>💬</span>
+            <a href="https://wa.me/628123456789"
+            target="_blank"
+            class="link-btn">
+                <i class="fab fa-whatsapp"></i>
                 WhatsApp
             </a>
 
         </div>
 
         <div class="socials">
-            <a href="#">📘</a>
-            <a href="#">📸</a>
-            <a href="#">🎵</a>
-            <a href="#">▶️</a>
+
+            <a href="#">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+
+            <a href="#">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            <a href="#">
+                <i class="fab fa-tiktok"></i>
+            </a>
+
+            <a href="#">
+                <i class="fab fa-youtube"></i>
+            </a>
+
         </div>
+
+        <button class="share-btn" onclick="sharePage()">
+            🔗 Bagikan Halaman
+        </button>
 
         <div class="footer">
             © 2026 Bayu Adinegara
@@ -200,6 +337,29 @@ h1{
     </div>
 
 </div>
+
+<script>
+
+function sharePage(){
+
+    if(navigator.share){
+
+        navigator.share({
+            title:document.title,
+            url:window.location.href
+        });
+
+    }else{
+
+        navigator.clipboard.writeText(
+            window.location.href
+        );
+
+        alert("Link berhasil disalin!");
+    }
+}
+
+</script>
 
 </body>
 </html>
